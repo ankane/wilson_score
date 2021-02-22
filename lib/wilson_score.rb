@@ -16,10 +16,8 @@ module WilsonScore
     if correction # continuity correction
       a = 2 * (n + z2)
       b = 2*n*phat + z2
-      c = z * Math.sqrt(z2 - 1.0/n + 4*n*phat*(1 - phat) + (4*phat - 2)) + 1
-      d = z * Math.sqrt(z2 - 1.0/n + 4*n*phat*(1 - phat) - (4*phat - 2)) + 1
-      lower = phat == 0 ? 0 : [0, (b - c) / a].max
-      upper = phat == 1 ? 1 : [1, (b + d) / a].min
+      lower = phat == 0 ? 0 : [0, (b - (z * Math.sqrt(z2 - 1.0/n + 4*n*phat*(1 - phat) + (4*phat - 2)) + 1)) / a].max
+      upper = phat == 1 ? 1 : [1, (b + (z * Math.sqrt(z2 - 1.0/n + 4*n*phat*(1 - phat) - (4*phat - 2)) + 1)) / a].min
       lower..upper
     else
       a = 1 + z2 / n

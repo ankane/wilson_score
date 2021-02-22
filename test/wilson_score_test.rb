@@ -54,6 +54,16 @@ class TestWilsonScore < Minitest::Test
     assert_in_delta 0.8747, interval.last
   end
 
+  def test_continuity_correction_p_zero
+    assert_equal 0, WilsonScore.interval(0, 25, confidence: 0.8).first
+    assert_equal 1, WilsonScore.rating_interval(1, 25, 1..5, confidence: 0.8).first
+  end
+
+  def test_continuity_correction_p_one
+    assert_equal 1, WilsonScore.interval(25, 25, confidence: 0.8).last
+    assert_equal 5, WilsonScore.rating_interval(5, 25, 1..5, confidence: 0.8).last
+  end
+
   def test_rating
     interval = WilsonScore.rating_interval(5, 1, 1..5, correction: false)
     assert_in_delta 1.8262, interval.first
